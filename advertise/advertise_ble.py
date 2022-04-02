@@ -1,5 +1,5 @@
 # How to run this command
-# sudo python ./advertise_ble.py -u siemakurwa
+# sudo python3 ./advertise_ble.py -d example_msg
 
 import os
 import sys
@@ -38,7 +38,7 @@ def encode_data(data):
         if data.startswith(scheme):
             cur_data.append(0)
             i += len(scheme)
-    except:
+    except Exception as e:
         raise Exception("Invalid cur_data scheme")
 
     while i < len(data):
@@ -125,11 +125,12 @@ def stopAdvertising():
     subprocess.call("sudo hcitool -i hci0 cmd 0x08 0x000a 00", shell=True, stdout=DEVNULL)
 
 
-try:
-    if options.stop:
-        stopAdvertising()
-    else:
-        advertise(data)
-except Exception as e:
-    sys.stderr.write("Exception: " + str(e) + "\n")
-    exit(1)
+if __name__ == "__main__":
+    try:
+        if options.stop:
+            stopAdvertising()
+        else:
+            advertise(data)
+    except Exception as e:
+        sys.stderr.write("Exception: " + str(e) + "\n")
+        exit(1)

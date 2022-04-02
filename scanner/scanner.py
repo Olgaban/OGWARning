@@ -1,7 +1,7 @@
 import asyncio
 from bleak import BleakScanner
 
-timeout_seconds = 30
+timeout_seconds = 10
 address_to_look_for = 'masked'
 service_id_to_look_for = 'masked'
 
@@ -11,7 +11,7 @@ def detection_callback(device, advertisement_data):
         message = advertisement_data.service_data.get(some_id)
         if some_id != "0000feaa-0000-1000-8000-00805f9b34fb":
             continue
-        print(message)
+        print(str(message)[14:-1])
 
 
 async def run():
