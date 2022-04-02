@@ -1,17 +1,16 @@
 import sys
-sys.path.append(".")
-
 import asyncio
 from bleak import BleakScanner
 import subprocess
 
-
+sys.path.append(".")
 
 timeout_seconds = 10
 address_to_look_for = 'masked'
 service_id_to_look_for = 'masked'
 
 OUR_UUID = "0000feaa-0000-1000-8000-00805f9b34fb"
+
 
 def detection_callback(device, advertisement_data):
     for some_id in advertisement_data.service_data:
