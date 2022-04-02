@@ -5,7 +5,7 @@ import subprocess
 
 sys.path.append(".")
 
-timeout_seconds = 10
+timeout_seconds = 5
 address_to_look_for = 'masked'
 service_id_to_look_for = 'masked'
 
@@ -32,7 +32,7 @@ def detection_callback(device, advertisement_data):
         advertisingMessage = message
 
         # ADVERTISE THE MESSAGE
-        subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
+        subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d '{message}'", shell=True)
 
 
 async def run():
