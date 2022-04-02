@@ -5,13 +5,17 @@ timeout_seconds = 10
 address_to_look_for = 'masked'
 service_id_to_look_for = 'masked'
 
+OUR_UUID = "0000feaa-0000-1000-8000-00805f9b34fb"
 
 def detection_callback(device, advertisement_data):
     for some_id in advertisement_data.service_data:
         message = advertisement_data.service_data.get(some_id)
-        if some_id != "0000feaa-0000-1000-8000-00805f9b34fb":
+        if some_id != OUR_UUID:
             continue
-        print(str(message)[14:-1])
+        # ADVERTISE THE MESSAGE
+
+        message = str(message)[14:-1]
+        print(message)
 
 
 async def run():
