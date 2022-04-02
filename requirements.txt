@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 asyncio~=3.4.3
 bleak~=0.14.2
+=======
+asyncio==3.4.3
+bleak==0.14.2
+dbus-next==0.2.3
+>>>>>>> 0e6f000ee1af4c37b05288749d5ad6875ec1d1a5
