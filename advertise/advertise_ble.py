@@ -107,16 +107,18 @@ def advertise(data):
     message = " ".join(message)
     verboseOutput("Message: " + message)
 
-    subprocess.call("sudo hciconfig hci0 up", shell=True, stdout=DEVNULL)
+    # subprocess.call("sudo -S su", shell=True, stdout=DEVNULL)
+
+    subprocess.call("hciconfig hci0 up", shell=True, stdout=DEVNULL)
 
     # Stop advertising
-    subprocess.call("sudo hcitool -i hci0 cmd 0x08 0x000a 00", shell=True, stdout=DEVNULL)
+    subprocess.call("hcitool -i hci0 cmd 0x08 0x000a 00", shell=True, stdout=DEVNULL)
 
     # Set message
-    subprocess.call("sudo hcitool -i hci0 cmd 0x08 0x0008 " + message, shell=True, stdout=DEVNULL)
+    subprocess.call("hcitool -i hci0 cmd 0x08 0x0008 " + message, shell=True, stdout=DEVNULL)
 
     # Resume advertising
-    subprocess.call("sudo hcitool -i hci0 cmd 0x08 0x000a 01", shell=True, stdout=DEVNULL)
+    subprocess.call("hcitool -i hci0 cmd 0x08 0x000a 01", shell=True, stdout=DEVNULL)
 
 
 def stopAdvertising():
@@ -125,7 +127,7 @@ def stopAdvertising():
     subprocess.call("sudo hcitool -i hci0 cmd 0x08 0x000a 00", shell=True, stdout=DEVNULL)
 
 
-if __name__ == "__main__":
+def main():
     try:
         if options.stop:
             stopAdvertising()
@@ -134,3 +136,6 @@ if __name__ == "__main__":
     except Exception as e:
         sys.stderr.write("Exception: " + str(e) + "\n")
         exit(1)
+
+if __name__ == "__main__":
+    main()

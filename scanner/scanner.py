@@ -1,5 +1,11 @@
+import sys
+sys.path.append(".")
+
 import asyncio
 from bleak import BleakScanner
+import subprocess
+
+
 
 timeout_seconds = 10
 address_to_look_for = 'masked'
@@ -12,10 +18,12 @@ def detection_callback(device, advertisement_data):
         message = advertisement_data.service_data.get(some_id)
         if some_id != OUR_UUID:
             continue
-        # ADVERTISE THE MESSAGE
 
         message = str(message)[14:-1]
         print(message)
+
+        # ADVERTISE THE MESSAGE
+        subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
 
 
 async def run():
