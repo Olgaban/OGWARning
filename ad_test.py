@@ -1,9 +1,8 @@
 import asyncio
 import struct
-
 from bleak import BleakScanner
 
-timeout_seconds = 10
+timeout_seconds = 30
 address_to_look_for = 'masked'
 service_id_to_look_for = 'masked'
 
