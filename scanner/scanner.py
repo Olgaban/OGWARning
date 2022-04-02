@@ -24,7 +24,7 @@ def detection_callback(device, advertisement_data):
             continue
 
         message = str(message)[14:-1]
-        print(message)
+        print(message, device.address)
 
         if advertisingMessage == message:
             continue
