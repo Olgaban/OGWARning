@@ -11,8 +11,13 @@ service_id_to_look_for = 'masked'
 
 OUR_UUID = "0000feaa-0000-1000-8000-00805f9b34fb"
 
+runDetect = True
+advertisingMessage = ""
+
 
 def detection_callback(device, advertisement_data):
+    global advertisingMessage
+
     for some_id in advertisement_data.service_data:
         message = advertisement_data.service_data.get(some_id)
         if some_id != OUR_UUID:
@@ -20,6 +25,11 @@ def detection_callback(device, advertisement_data):
 
         message = str(message)[14:-1]
         print(message)
+
+        if advertisingMessage == message:
+            continue
+
+        advertisingMessage = message
 
         # ADVERTISE THE MESSAGE
         subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
@@ -33,6 +43,11 @@ async def run():
     await scanner.stop()
 
 
+def stop():
+    runDetect = False
+
+
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(run())
+    while runDetect:
+        loop.run_until_complete(run())
