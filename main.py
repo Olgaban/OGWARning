@@ -74,9 +74,9 @@ async def run(address, debug=False):
                 await client.stop_notify(CHARACTERISTIC_UUID)
 
 
-async def foo(address) :
-    async with BleakClient(address) as client:
-        client.start_notify(address, callback)
+# async def foo(address) :
+#     async with BleakClient(address) as client:
+#         client.start_notify(address, callback)
 
 
 if __name__ == "__main__":
@@ -95,11 +95,11 @@ if __name__ == "__main__":
 
     #Run notify event
     loop = asyncio.get_event_loop()
-    # loop.set_debug(True)
-    # loop.run_until_complete(run(address, True))
+    loop.set_debug(True)
+    loop.run_until_complete(run(address, True))
 
-    def callback(sender: int, data: bytearray):
-        print(f"{sender}: {data}")
-
-    loop.run_until_complete(foo(address))
+    # def callback(sender: int, data: bytearray):
+    #     print(f"{sender}: {data}")
+    #
+    # loop.run_until_complete(foo(address))
 

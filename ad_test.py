@@ -9,19 +9,15 @@ service_id_to_look_for = 'masked'
 
 
 def detection_callback(device, advertisement_data):
-    # if device.address == address_to_look_for:
-    #     byte_data = advertisement_data.service_data.get(service_id_to_look_for)
-    #     num_to_test = struct.unpack_from('<I', byte_data, 0)
-    #     if num_to_test == 1:
-    #         print('here we want to terminate')
-    print(device.address, "RSSI:", device.rssi, advertisement_data)
-    print(advertisement_data.service_data)
     for some_id in advertisement_data.service_data:
-        print("dupa", some_id)
-        byte_data = advertisement_data.service_data.get(some_id)
-        num_to_test = struct.unpack_from('<I', byte_data, 0)
-        print(num_to_test)
-
+        message = advertisement_data.service_data.get(some_id)
+        # print(some_id)
+        # num_to_test = struct.unpack_from('<I', message, 0)
+        if some_id != "0000feaa-0000-1000-8000-00805f9b34fb":
+            continue
+        print(message)
+        # print(device.address, "RSSI:", device.rssi, advertisement_data)
+        # print(device.address, advertisement_data.service_data)
 
 
 async def run():
