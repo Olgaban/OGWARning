@@ -2,6 +2,7 @@ import sys
 import asyncio
 from bleak import BleakScanner
 import subprocess
+from Commands import commands
 
 sys.path.append(".")
 
@@ -14,9 +15,11 @@ OUR_UUID = "0000feaa-0000-1000-8000-00805f9b34fb"
 runDetect = True
 advertisingMessage = ""
 
+actual_n = -1
+
 
 def detection_callback(device, advertisement_data):
-    global advertisingMessage
+    global advertisingMessage, actual_n
 
     for some_id in advertisement_data.service_data:
         message = advertisement_data.service_data.get(some_id)
@@ -24,15 +27,13 @@ def detection_callback(device, advertisement_data):
             continue
 
         message = str(message)[14:-1]
-        print(message, device.address)
-
-        if advertisingMessage == message:
-            continue
-
-        advertisingMessage = message
-
-        # ADVERTISE THE MESSAGE
-        subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d '{message}'", shell=True)
+        number = int(message[:3])
+        message = int(message[3:])
+        print(commands[message], device.address)
+        if number>actual_n:
+            actual_n=number
+            advertisingMessage = message
+            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
 
 
 async def run():
@@ -48,6 +49,7 @@ def stop():
 
 
 if __name__ == '__main__':
+    i=0
     loop = asyncio.get_event_loop()
     while runDetect:
         loop.run_until_complete(run())
