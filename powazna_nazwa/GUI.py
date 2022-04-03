@@ -20,24 +20,28 @@ import subprocess
 
 Builder.load_file('giu.kv')
 messages_to_send = ["War is comming!", "", "fallus"]
-latestID = -1
+latestID = 0
 
 global_label = Label(text="chuj")
 
 class OgWARning(App):
     def advertise_message(self, instance):
+        global latestID
         message = messages_to_send.index(instance.text)
-        priority = 999
         # time_stamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M')
         # time_stamp = hex(int(time_stamp))
-        subprocess.call(f"sudo python3 ./advertise_ble.py -d {priority}{message}", shell=True)
+        latestID += 1
+        subprocess.call(f"sudo python3 ./advertise_ble.py -d {'0' * (3 - len(str(latestID))) + str(latestID)}{message}", shell=True)
 
     def read_message(self, instance):
+        global latestID
         global global_label
 
         print("read message")
         with open("plik.txt", "r") as file:
-            global_label.text = file.read()
+            line = file.read()
+            latestID = int(line[:3])
+            global_label.text = line[3:]
 
     def build(self):
         self.window = GridLayout()
