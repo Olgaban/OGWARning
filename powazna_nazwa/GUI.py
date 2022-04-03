@@ -7,6 +7,8 @@ from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 
+from threading import Thread
+
 import sys
 sys.path.append(".")
 
@@ -17,6 +19,7 @@ Builder.load_file('giu.kv')
 messages_to_send = ["War is comming!", "", "fallus"]
 latestID = -1
 
+global_label = Label(text="chuj")
 
 class OgWARning(App):
     def advertise_message(self, instance):
@@ -47,16 +50,25 @@ class OgWARning(App):
         self.send_messages_button.bind(on_release=self.dropdown.open)
         self.window.add_widget(self.send_messages_button)
 
-        self.gotten_messages = Label(
-            text='dupa cipa chuuuuuuuuuuuuUUuuj',
-            font_size=18,
-        )
+        self.gotten_messages = global_label
 
         self.window.add_widget(self.gotten_messages)
-
+        subprocess.call("python3 scanner.py", shell=True)
         return self.window
 
+def show_messgae(command):
+    global_label.text = command
 
+def run_scanner():
+    subprocess.call("python3 scanner.py", shell=True)
 
 if __name__ == "__main__":
-    OgWARning().run()
+
+    thread1 = Thread(target=OgWARning().run)
+    thread2 = Thread(target=run_scanner)
+
+    thread1.run()
+    thread2.run()
+
+    thread1.join()
+    thread2.join()
