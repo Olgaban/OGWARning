@@ -13,7 +13,6 @@ service_id_to_look_for = 'masked'
 OUR_UUID = "0000feaa-0000-1000-8000-00805f9b34fb"
 
 runDetect = True
-advertisingMessage = ""
 
 actual_n = -1
 
@@ -32,7 +31,7 @@ def detection_callback(device, advertisement_data):
         print(commands[message_key], device.address)
         if number > actual_n:
             actual_n = number
-            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
+            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d '{message}'", shell=True)
 
 
 async def run():
