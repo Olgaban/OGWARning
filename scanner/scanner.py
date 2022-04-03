@@ -32,8 +32,7 @@ def detection_callback(device, advertisement_data):
         print(commands[message_key], device.address)
         if number > actual_n:
             actual_n = number
-            advertisingMessage = commands[message_key]
-            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {commands[message_key]}", shell=True)
+            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
 
 
 async def run():
@@ -49,7 +48,7 @@ def stop():
 
 
 if __name__ == '__main__':
-    i=0
+    i = 0
     loop = asyncio.get_event_loop()
     while runDetect:
         loop.run_until_complete(run())
