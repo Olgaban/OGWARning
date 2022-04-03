@@ -35,7 +35,7 @@ def detection_callback(device, advertisement_data):
             actual_n = number
             subprocess.call(f"sudo python3 ./advertise_ble.py -d '{message}'", shell=True)
             with open("plik.txt", "w") as file:
-                file.write('0' * (3 - len(str(number))) + commands[message_key])
+                file.write('0' * (3 - len(str(number)))+ str(number) + commands[message_key])
 
 
 async def run():

@@ -20,7 +20,7 @@ import subprocess
 
 Builder.load_file('giu.kv')
 messages_to_send = ["War is comming!", "", "fallus"]
-latestID = 0
+latestID = 10
 
 global_label = Label(text="chuj")
 
