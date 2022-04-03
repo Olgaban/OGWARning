@@ -3,7 +3,6 @@ import asyncio
 from bleak import BleakScanner
 import subprocess
 from commands import commands
-from GUI import show_messgae
 
 
 sys.path.append(".")
@@ -31,7 +30,10 @@ def detection_callback(device, advertisement_data):
         number = int(message[:3])
         message_key = int(message[3:])
         print(commands[message_key], device.address)
-        show_messgae(commands[message_key])
+
+        with open("plik.txt", "w") as file:
+            file.write(commands[message_key])
+
         if number > actual_n or number == 999:
             actual_n = number
             subprocess.call(f"sudo python3 ./advertise_ble.py -d '{message}'", shell=True)

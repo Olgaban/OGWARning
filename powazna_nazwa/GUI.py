@@ -1,3 +1,5 @@
+import asyncio
+
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -8,6 +10,7 @@ from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 
 from threading import Thread
+from multiprocessing import Process
 
 import sys
 sys.path.append(".")
@@ -28,6 +31,13 @@ class OgWARning(App):
         # time_stamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M')
         # time_stamp = hex(int(time_stamp))
         subprocess.call(f"sudo python3 ./advertise_ble.py -d {priority}{message}", shell=True)
+
+    def read_message(self, instance):
+        global global_label
+
+        print("read message")
+        with open("plik.txt", "r") as file:
+            global_label.text = file.read()
 
     def build(self):
         self.window = GridLayout()
@@ -50,25 +60,42 @@ class OgWARning(App):
         self.send_messages_button.bind(on_release=self.dropdown.open)
         self.window.add_widget(self.send_messages_button)
 
+        self.refresh_button = Button(
+            text = "refresh messages",
+            size_hint = (1, 0.5),
+            background_color = (1, 1, 1),
+            background_normal = ""
+        )
+        self.refresh_button.bind(on_release=self.read_message)
+        self.window.add_widget(self.refresh_button)
         self.gotten_messages = global_label
 
         self.window.add_widget(self.gotten_messages)
-        subprocess.call("python3 scanner.py", shell=True)
+
         return self.window
 
 def show_messgae(command):
     global_label.text = command
 
 def run_scanner():
+    print("run scannner")
     subprocess.call("python3 scanner.py", shell=True)
 
+
+
 if __name__ == "__main__":
+    OgWARning().run()
 
-    thread1 = Thread(target=OgWARning().run)
-    thread2 = Thread(target=run_scanner)
-
-    thread1.run()
-    thread2.run()
-
-    thread1.join()
-    thread2.join()
+    # warning = OgWARning()
+    #
+    # proc1 = Thread(target=warning.run)
+    # proc2 = Thread(target=run_scanner)
+    # proc3 = Thread(target=read_message)
+    #
+    # proc1.run()
+    # proc2.run()
+    # proc3.run()
+    #
+    # proc1.join()
+    # proc2.join()
+    # proc3.join()
