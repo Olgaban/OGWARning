@@ -1,0 +1,1 @@
+commands = {0: "Kurwa chuj gnój", 1: "Twoja stara zapierdala", 2: "Dziekan skurwysyn robi louda"}
