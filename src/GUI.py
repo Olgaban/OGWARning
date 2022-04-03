@@ -19,10 +19,10 @@ sys.path.append(".")
 import subprocess
 
 Builder.load_file('giu.kv')
-messages_to_send = ["War is comming!", "", "fallus"]
+messages_to_send = ["War is comming!", "I am lost nearby", "The forest is burning", "Student piwo"]
 latestID = 10
 
-global_label = Label(text="chuj")
+global_label = Label(text="No messages received yet")
 
 class OgWARning(App):
     def advertise_message(self, instance):
@@ -37,7 +37,6 @@ class OgWARning(App):
         global latestID
         global global_label
 
-        print("read message")
         with open("plik.txt", "r") as file:
             line = file.read()
             latestID = int(line[:3])
@@ -65,7 +64,7 @@ class OgWARning(App):
         self.window.add_widget(self.send_messages_button)
 
         self.refresh_button = Button(
-            text = "refresh messages",
+            text = "Refresh messages",
             size_hint = (1, 0.5),
             background_color = (1, 1, 1),
             background_normal = ""
