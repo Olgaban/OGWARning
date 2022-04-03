@@ -1,8 +1,21 @@
-<<<<<<< HEAD
-asyncio~=3.4.3
-bleak~=0.14.2
-=======
+aioblescan==0.2.12
+aioconsole==0.4.1
 asyncio==3.4.3
 bleak==0.14.2
+bluezero==0.3.0
+certifi==2021.10.8
+charset-normalizer==2.0.12
 dbus-next==0.2.3
->>>>>>> 0e6f000ee1af4c37b05288749d5ad6875ec1d1a5
+dbus-python==1.2.18
+docutils==0.18.1
+enum34==1.1.10
+evdev==1.5.0
+glib==1.0.0
+idna==3.3
+Kivy==2.1.0
+Kivy-Garden==0.1.5
+PyBeacon==0.3.0.0
+Pygments==2.11.2
+requests==2.27.1
+RPyBeacon==0.1.5
+urllib3==1.26.9
