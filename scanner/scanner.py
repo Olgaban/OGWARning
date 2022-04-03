@@ -2,7 +2,7 @@ import sys
 import asyncio
 from bleak import BleakScanner
 import subprocess
-from Commands import commands
+from commands import commands
 
 sys.path.append(".")
 
@@ -28,12 +28,12 @@ def detection_callback(device, advertisement_data):
 
         message = str(message)[14:-1]
         number = int(message[:3])
-        message = int(message[3:])
-        print(commands[message], device.address)
-        if number>actual_n:
-            actual_n=number
-            advertisingMessage = message
-            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {message}", shell=True)
+        message_key = int(message[3:])
+        print(commands[message_key], device.address)
+        if number > actual_n:
+            actual_n = number
+            advertisingMessage = commands[message_key]
+            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d {commands[message_key]}", shell=True)
 
 
 async def run():
