@@ -4,6 +4,7 @@ from bleak import BleakScanner
 import subprocess
 from commands import commands
 
+
 sys.path.append(".")
 
 timeout_seconds = 5
@@ -29,9 +30,9 @@ def detection_callback(device, advertisement_data):
         number = int(message[:3])
         message_key = int(message[3:])
         print(commands[message_key], device.address)
-        if number > actual_n:
+        if number > actual_n or number == 999:
             actual_n = number
-            subprocess.call(f"sudo python3 ../advertise/advertise_ble.py -d '{message}'", shell=True)
+            subprocess.call(f"sudo python3 ./advertise_ble.py -d '{message}'", shell=True)
 
 
 async def run():
@@ -42,12 +43,11 @@ async def run():
     await scanner.stop()
 
 
-def stop():
-    runDetect = False
-
-
-if __name__ == '__main__':
+def main():
     i = 0
     loop = asyncio.get_event_loop()
     while runDetect:
         loop.run_until_complete(run())
+
+if __name__ == '__main__':
+    main()

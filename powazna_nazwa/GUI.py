@@ -7,10 +7,25 @@ from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 
+import sys
+sys.path.append(".")
+
+
+import subprocess
+
 Builder.load_file('giu.kv')
 messages_to_send = ["War is comming!", "", "fallus"]
+latestID = -1
+
 
 class OgWARning(App):
+    def advertise_message(self, instance):
+        message = messages_to_send.index(instance.text)
+        priority = 999
+        # time_stamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M')
+        # time_stamp = hex(int(time_stamp))
+        subprocess.call(f"sudo python3 ./advertise_ble.py -d {priority}{message}", shell=True)
+
     def build(self):
         self.window = GridLayout()
         self.window.cols = 1
@@ -20,7 +35,7 @@ class OgWARning(App):
         self.dropdown = DropDown()
         for text in messages_to_send:
             btn = Button(text=text, size_hint_y=None, background_color=(1, 1, 1), background_normal="", height=44)
-            btn.bind(on_release=lambda btn: self.dropdown.select(btn.text))
+            btn.bind(on_release=lambda btn: self.dropdown.select(btn.text), on_press=self.advertise_message)
             self.dropdown.add_widget(btn)
         self.send_messages_button = Button(
             text='Send messages',
@@ -40,9 +55,6 @@ class OgWARning(App):
         self.window.add_widget(self.gotten_messages)
 
         return self.window
-
-
-
 
 
 
